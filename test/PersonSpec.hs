@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 module PersonSpec where
 
 import Person
@@ -40,4 +41,9 @@ spec = do
           C.writeFile "out/test/yaml-demo/erik.yaml" bs
         it "can be read from file" $ do
           bs <- C.readFile "test-data/erik.yaml"
-          bs `shouldBe` "name: Erik Weisz\nage: 52\nmagic: true\n"
+          bs `shouldBe` "- name: Erik Weisz\n  age: 52\n  magic: true\n"
+        it "should preserver order of fields" $ do
+          original <- C.readFile "test-data/erik.yaml"
+          let Right ps = decode original :: Either (Pos,String) [[Person]]
+          let copy = encode ps
+          C.writeFile "out/test/yaml-demo/erik-copy.yaml" copy
