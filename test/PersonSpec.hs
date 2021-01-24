@@ -27,21 +27,29 @@ spec = do
                 age = 53,
                 magic = False
               }
-        it "can decode multiple persons from string" $ do
-          let Right [ps] = decode "- name: Erik Weisz\n  age: 52\n  magic: True\n- name: Mina Crandon\n  age: 53" :: Either (Pos,String) [[Person]]
-          ps `shouldBe` [erik, mina]
+
         it "can decode single person from string" $ do
           let Right [p] = decode1 "- name: Erik Weisz\n  age: 52\n  magic: True" :: Either (Pos,String) [Person]
           p `shouldBe` erik
+        it "can decode multiple persons from string" $ do
+          let Right [ps] = decode "- name: Erik Weisz\n  age: 52\n  magic: True\n- name: Mina Crandon\n  age: 53" :: Either (Pos,String) [[Person]]
+          ps `shouldBe` [erik, mina]
+
         it "can encode single person to string" $ do
           let bs = encode [erik]
           bs `shouldBe` "age: 52\nmagic: true\nname: Erik Weisz\n"
-        it "can be written to file" $ do
+        it "can encode multiple persons to string" $ do
+          let bs = encode [[erik]]
+          bs `shouldBe` "- age: 52\n  magic: true\n  name: Erik Weisz\n"
+
+        it "single person can be written to file" $ do
           let bs = encode [erik]
           C.writeFile "out/test/yaml-demo/erik.yaml" bs
+
         it "can be read from file" $ do
           bs <- C.readFile "test-data/erik.yaml"
           bs `shouldBe` "- name: Erik Weisz\n  age: 52\n  magic: true\n"
+
         it "should preserver order of fields" $ do
           original <- C.readFile "test-data/erik.yaml"
           let Right ps = decode original :: Either (Pos,String) [[Person]]
