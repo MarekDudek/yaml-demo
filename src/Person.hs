@@ -8,7 +8,7 @@ data Person = Person
     { name  :: Text
     , age   :: Int
     , magic :: Bool
-    } deriving Show
+    } deriving (Show, Eq)
 
 
 instance FromYAML Person where

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 223ec27048e6196cf1803aa820321837f36324d63177b7e5971e3c0dacdca1cd
+-- hash: 3239999ab0db1a2d6ee11f53e38b2dca7eaaeeca4d5d168b187de57b21b7315f
 
 name:           yaml-demo
 version:        0.1.0.0
@@ -61,6 +61,7 @@ test-suite yaml-demo-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      PersonSpec
       Paths_yaml_demo
   hs-source-dirs:
       test
@@ -69,6 +70,7 @@ test-suite yaml-demo-test
       HsYAML
     , base >=4.7 && <5
     , bytestring
+    , hspec
     , text
     , yaml
     , yaml-demo
