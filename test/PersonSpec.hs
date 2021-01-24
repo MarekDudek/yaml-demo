@@ -4,6 +4,8 @@ module PersonSpec where
 import Person
 import Data.YAML
 
+import qualified Data.ByteString.Lazy.Char8 as C
+
 import Test.Hspec
 
 main :: IO ()
@@ -30,3 +32,11 @@ spec = do
         it "can decode single person from string" $ do
           let Right [p] = decode1 "- name: Erik Weisz\n  age: 52\n  magic: True" :: Either (Pos,String) [Person]
           p `shouldBe` erik
+        it "can encode single person to string" $ do
+          let bs = encode [erik]
+          bs `shouldBe` "age: 52\nmagic: true\nname: Erik Weisz\n"
+        it "can be written to file" $ do
+          let bs = encode [erik]
+          C.writeFile "out/test/yaml-demo/erik.yaml" bs
+
+
