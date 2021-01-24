@@ -38,5 +38,6 @@ spec = do
         it "can be written to file" $ do
           let bs = encode [erik]
           C.writeFile "out/test/yaml-demo/erik.yaml" bs
-
-
+        it "can be read from file" $ do
+          bs <- C.readFile "test-data/erik.yaml"
+          bs `shouldBe` "name: Erik Weisz\nage: 52\nmagic: true\n"
